@@ -1,16 +1,97 @@
 ---
-title: "First post"
-description: "Lorem ipsum dolor sit amet"
-pubDate: "Jul 08 2022"
+title: "Getting Started with Terraform – Simple EC2 Example"
+description: "Learn how to launch your first EC2 instance using Terraform – step by step in Roman Urdu style."
+pubDate: "Jul 31 2025"
 heroImage: "/blog-placeholder-3.jpg"
 ---
 
-Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Vitae ultricies leo integer malesuada nunc vel risus commodo viverra. Adipiscing enim eu turpis egestas pretium. Euismod elementum nisi quis eleifend quam adipiscing. In hac habitasse platea dictumst vestibulum. Sagittis purus sit amet volutpat. Netus et malesuada fames ac turpis egestas. Eget magna fermentum iaculis eu non diam phasellus vestibulum lorem. Varius sit amet mattis vulputate enim. Habitasse platea dictumst quisque sagittis. Integer quis auctor elit sed vulputate mi. Dictumst quisque sagittis purus sit amet.
+Assalamualaikum doston! 👋  
+Aaj ka yeh mera pehla blog post hai jahan hum **Terraform ka basic use case** dekhtay hain – ek simple EC2 instance deploy karna on AWS.
 
-Morbi tristique senectus et netus. Id semper risus in hendrerit gravida rutrum quisque non tellus. Habitasse platea dictumst quisque sagittis purus sit amet. Tellus molestie nunc non blandit massa. Cursus vitae congue mauris rhoncus. Accumsan tortor posuere ac ut. Fringilla urna porttitor rhoncus dolor. Elit ullamcorper dignissim cras tincidunt lobortis. In cursus turpis massa tincidunt dui ut ornare lectus. Integer feugiat scelerisque varius morbi enim nunc. Bibendum neque egestas congue quisque egestas diam. Cras ornare arcu dui vivamus arcu felis bibendum. Dignissim suspendisse in est ante in nibh mauris. Sed tempus urna et pharetra pharetra massa massa ultricies mi.
+## 🔧 Terraform Kya Hai?
 
-Mollis nunc sed id semper risus in. Convallis a cras semper auctor neque. Diam sit amet nisl suscipit. Lacus viverra vitae congue eu consequat ac felis donec. Egestas integer eget aliquet nibh praesent tristique magna sit amet. Eget magna fermentum iaculis eu non diam. In vitae turpis massa sed elementum. Tristique et egestas quis ipsum suspendisse ultrices. Eget lorem dolor sed viverra ipsum. Vel turpis nunc eget lorem dolor sed viverra. Posuere ac ut consequat semper viverra nam. Laoreet suspendisse interdum consectetur libero id faucibus. Diam phasellus vestibulum lorem sed risus ultricies tristique. Rhoncus dolor purus non enim praesent elementum facilisis. Ultrices tincidunt arcu non sodales neque. Tempus egestas sed sed risus pretium quam vulputate. Viverra suspendisse potenti nullam ac tortor vitae purus faucibus ornare. Fringilla urna porttitor rhoncus dolor purus non. Amet dictum sit amet justo donec enim.
+Terraform ek Infrastructure as Code (IaC) tool hai jo humein cloud resources jaise ke EC2, VPC, S3, waghera ko code ki form mein manage karne deta hai. Yani infrastructure ko manually create karne ki bajaye, hum `.tf` files ke zariye define karte hain.
 
-Mattis ullamcorper velit sed ullamcorper morbi tincidunt. Tortor posuere ac ut consequat semper viverra. Tellus mauris a diam maecenas sed enim ut sem viverra. Venenatis urna cursus eget nunc scelerisque viverra mauris in. Arcu ac tortor dignissim convallis aenean et tortor at. Curabitur gravida arcu ac tortor dignissim convallis aenean et tortor. Egestas tellus rutrum tellus pellentesque eu. Fusce ut placerat orci nulla pellentesque dignissim enim sit amet. Ut enim blandit volutpat maecenas volutpat blandit aliquam etiam. Id donec ultrices tincidunt arcu. Id cursus metus aliquam eleifend mi.
+---
 
-Tempus quam pellentesque nec nam aliquam sem. Risus at ultrices mi tempus imperdiet. Id porta nibh venenatis cras sed felis eget velit. Ipsum a arcu cursus vitae. Facilisis magna etiam tempor orci eu lobortis elementum. Tincidunt dui ut ornare lectus sit. Quisque non tellus orci ac. Blandit libero volutpat sed cras. Nec tincidunt praesent semper feugiat nibh sed pulvinar proin gravida. Egestas integer eget aliquet nibh praesent tristique magna.
+## 📁 Basic Terraform Project Structure
+
+```bash
+terraform-ec2/
+├── main.tf
+├── variables.tf
+└── terraform.tfvars
+````
+
+---
+
+## ✍️ Step 1: `main.tf` – EC2 Configuration
+
+```hcl
+provider "aws" {
+  region = "us-east-1"
+}
+
+resource "aws_instance" "example" {
+  ami           = "ami-0c55b159cbfafe1f0" # Amazon Linux 2
+  instance_type = "t2.micro"
+
+  tags = {
+    Name = "MyFirstEC2"
+  }
+}
+```
+
+---
+
+## ✍️ Step 2: `variables.tf` – Variables Define Karna (Optional)
+
+```hcl
+variable "region" {
+  default = "us-east-1"
+}
+```
+
+---
+
+## ✍️ Step 3: Commands to Deploy
+
+```bash
+terraform init       # Initialize project
+terraform plan       # Check what will be created
+terraform apply      # Deploy the EC2 instance
+```
+
+Apply karne ke baad AWS Console pe jakay EC2 section mein aapko aapka instance nazar aayega.
+
+---
+
+## 🧹 Cleanup (Delete Resources)
+
+```bash
+terraform destroy
+```
+
+---
+
+## 🧠 Final Words
+
+Yeh sirf basic example tha. Terraform ka power tab samajh aata hai jab aap VPCs, Subnets, Security Groups, aur autoscaling waghera automate karte hain.
+
+Agle posts mein hum yeh sab explore karenge, step by step – aur har cheez ko **simple Roman Urdu** mein samjhayenge.
+
+Shukriya! 💻✨
+**\~ Rao Shahzaib**
+
+```
+
+---
+
+### ✅ Highlights:
+- Clear and simple for beginners.
+- Explained in a Roman Urdu + English mix, as per your style.
+- Practical Terraform EC2 example.
+- Room to expand in future posts.
+
+Want me to generate the code files (`main.tf`, `variables.tf`, `terraform.tfvars`) as downloads or GitHub repo format?
+```
