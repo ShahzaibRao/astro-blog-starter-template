@@ -3,53 +3,104 @@ import BaseHead from '../components/BaseHead.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { SITE_TITLE, SITE_DESCRIPTION } from '../consts';
+import { getCollection } from 'astro:content';
+import FormattedDate from '../components/FormattedDate.astro';
+
+const posts = (await getCollection('blog'))
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+	.slice(0, 3);
 ---
 
 <!doctype html>
 <html lang="en">
-  <head>
-    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-  </head>
-  <body>
-    <Header />
-    <main>
-      <h1>🧑‍💻 I'm Rao Shahzaib – DevOps Engineer</h1>
-      <p>
-        Welcome to my personal DevOps blog. Here I share real-world automation labs, Terraform scripts,
-        and cloud infrastructure tutorials in <strong>simple Roman Urdu</strong> so students and learners can understand
-        complex concepts easily.
-      </p>
+	<head>
+		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+		<style>
+			.recent-posts {
+				list-style: none;
+				margin: 0;
+				padding: 0;
+				display: flex;
+				flex-direction: column;
+				gap: 1rem;
+			}
+			.recent-posts a {
+				text-decoration: none;
+			}
+			.recent-posts .title {
+				margin: 0;
+				color: rgb(var(--black));
+			}
+			.recent-posts .date {
+				margin: 0;
+				color: rgb(var(--gray));
+			}
+			.recent-posts a:hover .title,
+			.recent-posts a:hover .date {
+				color: rgb(var(--accent));
+			}
+		</style>
+	</head>
+	<body>
+		<Header />
+		<main>
+			<h1>🧑‍💻 I'm Rao Shahzaib – DevOps Engineer</h1>
+			<p>
+				Welcome to my personal DevOps blog. Here I share real-world automation labs, Terraform scripts,
+				and cloud infrastructure tutorials in <strong>simple Roman Urdu</strong> so students and learners can understand
+				complex concepts easily.
+			</p>
 
-      <p>
-        I work with tools like <strong>Terraform, Kubernetes (K3s), Oracle Cloud, AWS, Ansible</strong>, and
-        more. My goal is to make DevOps approachable for everyone — especially for beginners who want practical,
-        hands-on knowledge.
-      </p>
+			<p>
+				I work with tools like <strong>Terraform, Kubernetes (K3s), Oracle Cloud, AWS, Ansible</strong>, and
+				more. My goal is to make DevOps approachable for everyone — especially for beginners who want practical,
+				hands-on knowledge.
+			</p>
 
-      <p>Popular Topics You’ll Find Here:</p>
-      <ul>
-        <li>💻 AWS Infrastructure with Terraform (VPCs, EC2, NAT, and more)</li>
-        <li>☸️ Kubernetes Cluster Setup (K3s on OCI without GitOps)</li>
-        <li>🔐 CI/CD pipelines and GitLab automation</li>
-        <li>🛠️ Ansible provisioning for VMs on Proxmox</li>
-        <li>📖 Terraform tutorials with Roman Urdu explanations</li>
-        <li>🎓 Labs designed for DevOps Bootcamps & Students</li>
-      </ul>
+			<p>Popular Topics You'll Find Here:</p>
+			<ul>
+				<li>💻 AWS Infrastructure with Terraform (VPCs, EC2, NAT, and more)</li>
+				<li>☸️ Kubernetes Cluster Setup (K3s on OCI without GitOps)</li>
+				<li>🔐 CI/CD pipelines and GitLab automation</li>
+				<li>🛠️ Ansible provisioning for VMs on Proxmox</li>
+				<li>📖 Terraform tutorials with Roman Urdu explanations</li>
+				<li>🎓 Labs designed for DevOps Bootcamps & Students</li>
+			</ul>
 
-      <p>
-        Each post is written from practical experience — not just theory — with working code examples and step-by-step
-        guidance. Whether you’re a beginner or already familiar with cloud and DevOps, you’ll find something helpful.
-      </p>
+			<p>
+				Each post is written from practical experience — not just theory — with working code examples and step-by-step
+				guidance. Whether you're a beginner or already familiar with cloud and DevOps, you'll find something helpful.
+			</p>
 
-      <p>
-        If you’re stuck, feel free to <a href="https://discord.gg/UGTPYJByp2">reach out</a> or connect with me on
-        LinkedIn. You can also explore my GitHub for live code examples and repositories.
-      </p>
+			<p>
+				If you're stuck, feel free to <a href="https://discord.gg/UGTPYJByp2">reach out on Discord</a> or connect with me on
+				<a href="https://linkedin.com/in/rao-shahzaib">LinkedIn</a>. You can also explore my
+				<a href="https://github.com/ShahzaibRao">GitHub</a> for live code examples and repositories.
+			</p>
 
-      <p>
-        Let’s learn DevOps together – one script at a time! 💡
-      </p>
-    </main>
-    <Footer />
-  </body>
+			<p>
+				Let's learn DevOps together – one script at a time! 💡
+			</p>
+
+			<h2>📝 Latest Posts</h2>
+			<ul class="recent-posts">
+				{
+					posts.map((post) => (
+						<li>
+							<a href={`/blog/${post.id}/`}>
+								<h4 class="title">{post.data.title}</h4>
+								<p class="date">
+									<FormattedDate date={post.data.pubDate} />
+								</p>
+							</a>
+						</li>
+					))
+				}
+			</ul>
+			<p>
+				<a href="/blog">View all posts →</a>
+			</p>
+		</main>
+		<Footer />
+	</body>
 </html>
